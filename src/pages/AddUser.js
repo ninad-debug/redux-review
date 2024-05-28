@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../redux/userSlice';
 
 const AddUser = () => {
   const { handleSubmit, control, formState: { errors } } = useForm();
+  const [userData, setUserData] = useState([])
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const {userId} = useParams()
+  const users = useSelector(state => state.users);
+  // const userToEdit = users?.filter(user => user.id === parseInt(userId)) || '';
 
   const handleAddUser = (data) => {
 
@@ -23,8 +27,18 @@ const AddUser = () => {
     }
     dispatch(addUser(newUser))
     navigate('/')
-  };
+  };  
 
+  useEffect(() => {
+    if(users.length > 0) {
+      setUserData(users?.filter((user) => user.id === parseInt(userId)))
+    }
+    console.log('userData', userData)
+  }, [userData, users])
+
+  console.log('userData', userData)
+  console.log('userId', userId)
+  console.log('users', users)
   return (
     <div style={{display: 'flex', justifyContent:'center', alignItems:'center', height:'100vh'}}>
         <Box

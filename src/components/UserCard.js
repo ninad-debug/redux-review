@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { deleteUser } from '../redux/userSlice';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 export default function UserCard({userId, user}) {
 
@@ -15,7 +16,6 @@ export default function UserCard({userId, user}) {
     dispatch(deleteUser(id))
   }
 
-  console.log('user', user)
   return (
     <Card sx={{ width: 265 }} key={userId}>
       <CardContent>
@@ -35,7 +35,12 @@ export default function UserCard({userId, user}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Update</Button>
+        
+          <Link to={`/edit-user/${userId}`}>
+            <Button size="small">
+              Update
+            </Button>
+          </Link>
       </CardActions>
         <Button size="small" onClick={() => handleDeleteUser(userId)}>Delete</Button>
     </Card>
